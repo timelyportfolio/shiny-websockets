@@ -35,10 +35,14 @@ function logChange( value ){
   ))#,type="text/babel")
 )
 
+state <- list()
+
 server <- function(input, output, session){
   observeEvent(
     input$reactjson,
     {
+      # accumulate state changes
+      state <<- c(state, list(input$reactjson$value))
       str(input$reactjson$value)
     }
   )
