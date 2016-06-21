@@ -10,12 +10,9 @@ ui <- tagList(
   ),
   tags$h1("react json editor"),
   tags$script(HTML(
+    sprintf(
 '
-var doc = {
-  hola: "amigo",
-  array: [1,2,3]
-};
-
+var doc = %s;
 /*
 // if you want to use JSX
 React.render(
@@ -31,7 +28,9 @@ function logChange( value ){
   console.log( value );
   Shiny.onInputChange("reactjson", {value:value});
 }
-'
+'      ,
+      jsonlite::toJSON(list(hola="amigo", array=1:3), auto_unbox=TRUE)
+    )
   ))#,type="text/babel")
 )
 
