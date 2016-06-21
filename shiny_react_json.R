@@ -53,3 +53,14 @@ runApp(list(
   ui=ui_function(list(hola="amigo", array=1:3)),
   server=server
 ))
+
+
+library(plotly)
+x <- y <- seq(-4*pi, 4*pi, len = 27)
+r <- sqrt(outer(x^2, y^2, "+"))
+p <- plot_ly( z=~cos(r^2)*exp(-r/pi^3), type="contour" )
+
+runApp(list(
+  ui=ui_function(plotly_build(p)$x),
+  server=server
+))
