@@ -16,7 +16,7 @@ function sendPosition(){
 }
 "    
   )
-  )
+)
 server <- function(input,output,session){
   #str(as.list(session$request))
   #session$onInputReceived(function(x){str(x)})
