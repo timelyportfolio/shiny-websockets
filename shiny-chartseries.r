@@ -79,7 +79,8 @@ shinyApp(
 
 library(quantmod)
 library(shiny)
-getSymbols("AAPL")
+aapl <- getSymbols("AAPL", auto.assign=FALSE)
+aapl <- adjustOHLC(aapl)
 
 
 shinyApp(
@@ -90,8 +91,10 @@ shinyApp(
   server <- function(input, output, session){
     cs <- new.env()
     output$plotA <- renderPlot({
-      cs <<- chart_Series(AAPL)
+      cs <<- chart_Series(aapl["2015::2016",], name="Apple")
       cs
+      add_Vo()
+      add_SMA(50)
     })
     
     observe({
