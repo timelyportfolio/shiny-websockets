@@ -55,6 +55,47 @@ runApp(list(
 ))
 
 
+# use with reactR----------
+library(reactR)
+ui_function_reactR <- function(json=NULL){
+  attachDependencies(
+    tagList(
+      tags$head(
+        tags$script(src="http://rawgit.com/arqex/react-json/master/build/Json.js"),
+        tags$link(href="http://rawgit.com/arqex/react-json/master/react-json.css",rel="stylesheet")
+      ),
+      tags$h1("react json editor"),
+      tags$script(babel_transform(
+        sprintf(
+'
+var doc = %s;
+
+ReactDOM.render(
+  <Json value={ doc } onChange={ logChange } />,
+  document.body
+);
+function logChange( value ){
+  console.log( value );
+  Shiny.onInputChange("reactjson", {value:value});
+}
+'         ,
+          jsonlite::toJSON(json, auto_unbox=TRUE)
+        )
+      ))
+    ),
+    html_dependency_react()
+  )
+}
+
+state <- list()
+
+runApp(list(
+  ui=ui_function_reactR(list(hola="amigo", array=1:3)),
+  server=server
+))
+
+
+
 library(plotly)
 x <- y <- seq(-4*pi, 4*pi, len = 27)
 r <- sqrt(outer(x^2, y^2, "+"))
